@@ -2,10 +2,7 @@ export const product = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
   href: '#',
-  breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
-  ],
+ 
   images: [
     {
       src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
@@ -26,8 +23,8 @@ export const product = {
   ],
   colors: [
     { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-    { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
-    { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+    { name: 'Gray', class: 'bg-green-500', selectedClass: 'ring-green-400' },
+    { name: 'Green', class: 'bg-green-900', selectedClass: 'ring-green-900' },
   ],
   sizes: [
     { name: 'XXS', inStock: true },

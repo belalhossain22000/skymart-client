@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/api/usersApi";
 import { logout } from '../../redux/slice/authSlice';
+import Cart from "../Cart/Cart";
+import { useState } from "react";
 
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(false)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ const Header = () => {
           <Navbar.Brand>
             <Link to="/" className="text-3xl font-bold hidden lg:block ">App <span className="text-green-600 "> Logo</span></Link>
           </Navbar.Brand>
-        
+
 
         </Navbar.Container>
         <Navbar.Brand>
@@ -58,15 +61,17 @@ const Header = () => {
             tag="ul"
             className="lg:flex hidden items-center justify-between gap-5"
           >
-              <Link to="product" className="font-semibold text-lg">Products</Link>
+            <Link to="/" className="font-semibold text-lg">Home</Link>
+            <Link to="/product" className="font-semibold text-lg">Products</Link>
             {
               userInfo ? <button onClick={logoutHandler} className="font-semibold text-lg"> LogOut</button> : <Link to="auth" className="font-semibold text-lg"> Sign Up</Link>
             }
 
 
           </Navbar.Container>
-
-          <Button size="xs" type="outlineGray" className="bg-green-500 hover:bg-green-700 text-white font-semibold">
+          {/* cart */}
+          <Cart setOpen={setOpen} open={open}/>
+          <Button onClick={()=>setOpen(!open)} size="xs" type="outlineGray" className="bg-green-500 hover:bg-green-700 text-white font-semibold">
             <span>
               <ShoppingCart className="font-bold " size={20} color="#FFFFFF" />
             </span>

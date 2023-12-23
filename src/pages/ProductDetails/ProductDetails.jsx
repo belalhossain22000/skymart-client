@@ -4,6 +4,9 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { product } from '../../constant/constant'
 import { useParams } from 'react-router-dom'
+import { useGetProductByIdQuery } from '../../redux/api/productApi'
+import Spinners from '../../components/Spinner/Spinner'
+import { useSelector } from 'react-redux'
 
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
@@ -14,27 +17,46 @@ function classNames(...classes) {
 
 export default function ProductDetails() {
 
-  const {id} = useParams()
-  console.log(id)
+  const { id } = useParams()
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 
+  const { isLoading, data } = useGetProductByIdQuery(id)
+  const { image, brand, title, price, _id } = data?.data || {}
+  const { userInfo } = useSelector((state) => state.auth);
 
+  // cart making
+  const cartData = {
+    userId: userInfo?.data?._id,
+    productId: _id
+  }
 
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    try {
+      
+    } catch (error) {
+      console.log(error?.message)
+    }
+  }
 
+  // spinner
+  if (isLoading) {
+    return <Spinners />
+  }
   return (
     <div className="bg-white">
       <div className="pt-6 grid grid-cols-2">
-       
+
 
         {/* Image gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:gap-x-8 lg:px-8">
-          
+
           <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
             <img
-              src={product.images[3].src}
-              alt={product.images[3].alt}
+              src={image}
+              alt={title}
               className="h-full w-full object-cover object-center"
             />
           </div>
@@ -43,13 +65,14 @@ export default function ProductDetails() {
         {/* Product info */}
         <div className="grid grid-cols-1 gap-5">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-500 sm:text-3xl mb-2">{brand}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">{title}</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
+            <p className="text-3xl tracking-tight text-green-600">Price : ${price}</p>
 
             {/* Reviews */}
             <div className="mt-6">
@@ -60,7 +83,7 @@ export default function ProductDetails() {
                     <StarIcon
                       key={rating}
                       className={classNames(
-                        reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
+                        reviews.average > rating ? 'text-green-600' : 'text-gray-200',
                         'h-5 w-5 flex-shrink-0'
                       )}
                       aria-hidden="true"
@@ -68,13 +91,13 @@ export default function ProductDetails() {
                   ))}
                 </div>
                 <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                <a href={reviews.href} className="ml-3 text-sm font-medium text-green-600 hover:text-green-700">
                   {reviews.totalCount} reviews
                 </a>
               </div>
             </div>
 
-            <form className="mt-10">
+            <form className="mt-10" onSubmit={handleAddToCart}>
               {/* Colors */}
               <div>
                 <h3 className="text-sm font-medium text-gray-900">Color</h3>
@@ -115,7 +138,7 @@ export default function ProductDetails() {
               <div className="mt-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                  <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                  <a href="#" className="text-sm font-medium text-green-600 hover:text-green-500">
                     Size guide
                   </a>
                 </div>
@@ -132,9 +155,9 @@ export default function ProductDetails() {
                           classNames(
                             size.inStock
                               ? 'cursor-pointer bg-white text-gray-900 shadow-sm'
-                              : 'cursor-not-allowed bg-gray-50 text-gray-200',
-                            active ? 'ring-2 ring-indigo-500' : '',
-                            'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6'
+                              : 'cursor-not-allowed bg-green-50 text-green-200',
+                            active ? 'ring-2 ring-green-500' : '',
+                            'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-green-100 focus:outline-none sm:flex-1 sm:py-6'
                           )
                         }
                       >
@@ -145,7 +168,7 @@ export default function ProductDetails() {
                               <span
                                 className={classNames(
                                   active ? 'border' : 'border-2',
-                                  checked ? 'border-indigo-500' : 'border-transparent',
+                                  checked ? 'border-green-500' : 'border-transparent',
                                   'pointer-events-none absolute -inset-px rounded-md'
                                 )}
                                 aria-hidden="true"
@@ -175,7 +198,7 @@ export default function ProductDetails() {
 
               <button
                 type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
               >
                 Add to bag
               </button>
