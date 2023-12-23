@@ -15,7 +15,7 @@ const ProductSidebar = () => {
     };
 
     return ( 
-        <div className="bg-gray-100 rounded-lg p-6 h-[100vh]">
+        <div className="bg-green-100 rounded-lg p-6 h-[100vh]">
             <h2 className="text-lg font-bold mb-4">Filters</h2>
 <div className='h-[1px] w-full bg-green-700 mb-2'></div>
             <div className="mb-4">

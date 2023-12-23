@@ -5,7 +5,7 @@ import { FaCartPlus } from 'react-icons/fa';
 
 const ProductCard = () => {
     const [isHovered, setIsHovered] = useState(false);
-    const product = {}; // Replace this with your product data
+    
 
     function scrollToTop() {
         window.scrollTo({
@@ -16,11 +16,11 @@ const ProductCard = () => {
 
     return (
         <Link
-            to={`/product-details/${product?._id}`}
+            to={`/product-details`}
             onClick={() => scrollToTop()}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className='relative block w-[15rem] m-3 transition-all cursor-pointer rounded-md'
+            className='relative block w-[17rem] m-3 transition-all cursor-pointer rounded-md'
         >
             <div className='productCard'>
                 <div className='h-[20rem] relative'>
