@@ -5,6 +5,7 @@ import Product from "../../pages/Product/Product";
 import Registration from "../../pages/Registration/Registration";
 import Login from "../../pages/Login/Login";
 import ProductDetails from "../../pages/ProductDetails/ProductDetails";
+import Auth from "../../components/Auth/Auth";
 
 
 export const router = createBrowserRouter([
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
   {
     path:"login",
     element:<Login/>
+  },
+  {
+    path:"auth",
+    element:<Auth/>
   }
 
 ]);
