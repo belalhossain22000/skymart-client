@@ -35,13 +35,13 @@ const Header = () => {
           className="lg:flex hidden items-center justify-between gap-8"
         >
           <Navbar.Brand>
-            <Link to="/" className="text-2xl font-bold hidden lg:block">App Logo</Link>
+            <Link to="/" className="text-3xl font-bold hidden lg:block ">App <span className="text-green-600 "> Logo</span></Link>
           </Navbar.Brand>
-          <Link to="product">Products</Link>
+        
 
         </Navbar.Container>
         <Navbar.Brand>
-          <Link to="/" className="text-2xl font-bold lg:hidden">App Logo</Link>
+          <Link to="/" className=" text-2xl font-bold lg:hidden ">App <span className="text-green-600"> Logo</span></Link>
         </Navbar.Brand>
         <Navbar.Collapse collapseType="sidebar">
           <Navbar.Container tag="ul" className="flex flex-col gap-5">
@@ -58,18 +58,19 @@ const Header = () => {
             tag="ul"
             className="lg:flex hidden items-center justify-between gap-5"
           >
+              <Link to="product" className="font-semibold text-lg">Products</Link>
             {
-              userInfo ? <button onClick={logoutHandler} className="font-semibold"> LogOut</button> : <Link to="auth" className="font-semibold"> Sign Up</Link>
+              userInfo ? <button onClick={logoutHandler} className="font-semibold text-lg"> LogOut</button> : <Link to="auth" className="font-semibold text-lg"> Sign Up</Link>
             }
 
 
           </Navbar.Container>
 
-          <Button size="xs" type="outlineGray">
+          <Button size="xs" type="outlineGray" className="bg-green-500 hover:bg-green-700 text-white font-semibold">
             <span>
-              <ShoppingCart size={20} color="#444" />
+              <ShoppingCart className="font-bold " size={20} color="#FFFFFF" />
             </span>
-            <span className="ml-1 text-metal-600">Cart $0.00</span>
+            <span className="ml-1 font-semibold ">10</span>
           </Button>
           <Navbar.Toggle />
         </Navbar.Container>

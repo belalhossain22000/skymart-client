@@ -1,11 +1,12 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './productCard.css';
 import { Link } from 'react-router-dom';
-import { FaCartPlus } from 'react-icons/fa';
+import { FaArrowRight, FaCartPlus } from 'react-icons/fa';
 
-const ProductCard = () => {
+// eslint-disable-next-line react/prop-types
+const ProductCard = ({ product }) => {
     const [isHovered, setIsHovered] = useState(false);
-    
+    const { title,image,price,brand,_id} = product || {}
 
     function scrollToTop() {
         window.scrollTo({
@@ -15,8 +16,8 @@ const ProductCard = () => {
     }
 
     return (
-        <Link
-            to={`/product-details`}
+        <div
+           
             onClick={() => scrollToTop()}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -26,7 +27,7 @@ const ProductCard = () => {
                 <div className='h-[20rem] relative'>
                     <img
                         className='h-full w-full object-cover object-left-top rounded-md'
-                        src="https://rukminim1.flixcart.com/image/612/612/l5h2xe80/kurta/x/6/n/xl-kast-tile-green-majestic-man-original-imagg4z33hu4kzpv.jpeg?q=70"
+                        src={image}
                         alt=""
                     />
                     {isHovered && (
@@ -39,17 +40,17 @@ const ProductCard = () => {
                 </div>
                 <div className='textPart bg-white p-3'>
                     <div>
-                        <p className='font-bold opacity-60'>Majestic Man</p>
-                        <p>Men Printed Pure Cotton Straight shirt</p>
+                        <p className='font-bold opacity-60 text-xl'>{brand}</p>
+                        <p className='font-semibold text-lg'>{title}</p>
                     </div>
-                    <div className='flex items-center space-x-2'>
-                        <p className='font-semibold'>499</p>
-                        <p className='line-through opacity-60'>1499</p>
-                        <p className='text-green-600 font-semibold'>66 % off</p>
+                    <div className='flex items-center justify-between space-x-2'>
+                        <p className='font-semibold text-lg'> Price : <span className='text-green-600'>{price}</span></p>,
+                       
+                       <Link to={`/product-details/${_id}`}><FaArrowRight size={20} color='green'/></Link>
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 
