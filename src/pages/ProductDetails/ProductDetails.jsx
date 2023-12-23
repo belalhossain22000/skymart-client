@@ -35,7 +35,7 @@ export default function ProductDetails() {
   const handleAddToCart = async (e) => {
     e.preventDefault();
     try {
-      
+      console.log(cartData)
     } catch (error) {
       console.log(error?.message)
     }
@@ -46,8 +46,8 @@ export default function ProductDetails() {
     return <Spinners />
   }
   return (
-    <div className="bg-white">
-      <div className="pt-6 grid grid-cols-2">
+    <div className="bg-white container mx-auto">
+      <div className="pt-6 grid grid-cols-1 gap-10 md:gap-5  md:grid-cols-2 px-5">
 
 
         {/* Image gallery */}
@@ -63,7 +63,7 @@ export default function ProductDetails() {
         </div>
 
         {/* Product info */}
-        <div className="grid grid-cols-1 gap-5">
+        <div className="grid grid-cols-1 gap-5 ">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <h1 className="text-2xl font-bold tracking-tight text-gray-500 sm:text-3xl mb-2">{brand}</h1>
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">{title}</h1>
