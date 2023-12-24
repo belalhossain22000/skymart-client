@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
@@ -36,15 +36,19 @@ const products = [
 // eslint-disable-next-line react/prop-types
 export default function Cart({ setOpen, open }) {
   const { userInfo } = useSelector((state) => state.auth);
-  const id = userInfo?.data?._id||"1234567890ok"
+  const id = userInfo?.data?._id || "1234567890ok"
   // eslint-disable-next-line no-unused-vars
   const { isLoading, data } = useGetSingleCartQuery(id)
-  // const cart = data?.data?.cart
-  const cart=[1,1,1,1]
+  const cart = data?.data?.cart
+  // const cart=[1,1,1,1]
+  const [totalPrice, setTotalPrice] = useState("")
 
-  // console.log(data?.data)
-  const totalPrice=calculateTotalPrice(cart)
-
+  useEffect(() => {
+    if (Array.isArray(cart)) {
+      const totalPrices = calculateTotalPrice(cart);
+      setTotalPrice(totalPrices);
+    } 
+  }, [cart]); 
   if (isLoading) {
     return <Spinners />
   }
