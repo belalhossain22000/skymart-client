@@ -18,9 +18,9 @@ const Auth = () => {
 
 
                     <div className='flex md:flex-col flex-row justify-center gap-5'>
-                        <button className="bg-blue-800 text-white py-2 md:px-4 px-10 rounded mr-2 flex items-center gap-3"><FaFacebookF size={20} /><span className='hidden md:block'>Login with Facebook</span></button>
-                        <button className="bg-red-800 text-white py-2 md:px-4 px-10 rounded mr-2 flex items-center gap-3"><FaGoogle /><span className='hidden md:block'>Login with Google</span></button>
-                        <button className="bg-blue-500 text-white py-2 md:px-4 px-10 rounded flex items-center gap-3"><FaTwitter /><span className='hidden md:block'>Login with Twitter</span></button>
+                        <button className="bg-blue-800 text-white py-2 md:px-4 px-8 rounded mr-2 flex items-center gap-3"><FaFacebookF size={20} /><span className='hidden md:block'>Login with Facebook</span></button>
+                        <button className="bg-red-800 text-white py-2 md:px-4 px-8 rounded mr-2 flex items-center gap-3"><FaGoogle /><span className='hidden md:block'>Login with Google</span></button>
+                        <button className="bg-blue-500 text-white py-2 md:px-4 px-8 rounded flex items-center gap-3"><FaTwitter /><span className='hidden md:block'>Login with Twitter</span></button>
                     </div>
                 </div>
                 <div className="w-[100%] bg-white ">

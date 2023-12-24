@@ -7,7 +7,9 @@ import { useParams } from 'react-router-dom'
 import { useGetProductByIdQuery } from '../../redux/api/productApi'
 import Spinners from '../../components/Spinner/Spinner'
 import { useSelector } from 'react-redux'
-
+import { useAddToCartMutation } from '../../redux/api/cartApi'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
@@ -25,17 +27,33 @@ export default function ProductDetails() {
   const { isLoading, data } = useGetProductByIdQuery(id)
   const { image, brand, title, price, _id } = data?.data || {}
   const { userInfo } = useSelector((state) => state.auth);
+  const [addToCart, { isLoading: loading }] = useAddToCartMutation()
 
-  // cart making
-  const cartData = {
+  const cart = {
     userId: userInfo?.data?._id,
-    productId: _id
+    cart: [
+      {
+        productId: _id,
+        quantity: 1
+      }
+    ]
   }
+  // notify for error
+  const notify = () => {
+    toast.error('Please login first!', {
+      position: toast.POSITION.TOP_CENTER,
 
+    });
+  };
   const handleAddToCart = async (e) => {
     e.preventDefault();
     try {
-      console.log(cartData)
+      if (userInfo) {
+        await addToCart(cart)
+      }
+      else {
+        notify()
+      }
     } catch (error) {
       console.log(error?.message)
     }
@@ -200,7 +218,7 @@ export default function ProductDetails() {
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
               >
-                Add to bag
+                {loading ? "Loading" : " Add to bag"}
               </button>
             </form>
           </div>

@@ -7,11 +7,17 @@ import { useLogoutMutation } from "../../redux/api/usersApi";
 import { logout } from '../../redux/slice/authSlice';
 import Cart from "../Cart/Cart";
 import { useState } from "react";
+import { useGetSingleCartQuery } from "../../redux/api/cartApi";
+import Spinners from "../Spinner/Spinner";
+
 
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const id = userInfo?.data?._id
+  const { isLoading, data } = useGetSingleCartQuery(id)
   const [open, setOpen] = useState(false)
+  // console.log(data)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,12 +33,15 @@ const Header = () => {
       console.error(err);
     }
   };
+  if(isLoading){
+    return <Spinners/>
+  }
 
   return (
 
 
     <Navbar fluid={true}>
-      <Navbar.Container className="container mx-aut flex items-center justify-between  h-[100px]">
+      <Navbar.Container className="container mx-auto flex items-center justify-between  h-[100px]">
         <Navbar.Container
           tag="ul"
           className="lg:flex hidden items-center justify-between gap-8"
@@ -70,12 +79,12 @@ const Header = () => {
 
           </Navbar.Container>
           {/* cart */}
-          <Cart setOpen={setOpen} open={open}/>
-          <Button onClick={()=>setOpen(!open)} size="xs" type="outlineGray" className="bg-green-500 hover:bg-green-700 text-white font-semibold">
+          <Cart setOpen={setOpen} open={open} />
+          <Button onClick={() => setOpen(!open)} size="xs" type="outlineGray" className="bg-green-500 hover:bg-green-700 text-white font-semibold">
             <span>
               <ShoppingCart className="font-bold " size={20} color="#FFFFFF" />
             </span>
-            <span className="ml-1 font-semibold ">10</span>
+            <span className="ml-1 font-semibold ">{data?.data?.cart?.length}</span>
           </Button>
           <Navbar.Toggle />
         </Navbar.Container>

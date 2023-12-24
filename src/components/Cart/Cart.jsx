@@ -2,7 +2,12 @@ import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useGetSingleCartQuery } from '../../redux/api/cartApi'
+import Spinners from '../Spinner/Spinner'
+import { calculateTotalPrice } from '../../utils/totalPrice'
 
+// eslint-disable-next-line no-unused-vars
 const products = [
   {
     id: 1,
@@ -29,9 +34,17 @@ const products = [
 ]
 
 // eslint-disable-next-line react/prop-types
-export default function Cart({setOpen,open}) {
- 
+export default function Cart({ setOpen, open }) {
+  const { userInfo } = useSelector((state) => state.auth);
+  const id = userInfo?.data?._id
+  const { isLoading, data } = useGetSingleCartQuery(id)
+  const cart = data?.data?.cart
+  const totalPrice=calculateTotalPrice(cart)
+  console.log(totalPrice)
 
+  if (isLoading) {
+    return <Spinners />
+  }
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -80,11 +93,11 @@ export default function Cart({setOpen,open}) {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {products.map((product) => (
+                            {cart?.map((product) => (
                               <li key={product.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.imageSrc}
+                                    src={product?.productId?.image}
                                     alt={product.imageAlt}
                                     className="h-full w-full object-cover object-center"
                                   />
@@ -94,9 +107,9 @@ export default function Cart({setOpen,open}) {
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
-                                        <a href={product.href}>{product.name}</a>
+                                        <a href={product.href}>{product?.productId?.title}</a>
                                       </h3>
-                                      <p className="ml-4 text-green-600">{product.price}</p>
+                                      <p className="ml-4 text-green-600">{product?.productId?.price}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                   </div>
@@ -123,7 +136,7 @@ export default function Cart({setOpen,open}) {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p className='text-green-600'>$262.00</p>
+                        <p className='text-green-600'>$ {totalPrice}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-green-500">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">
