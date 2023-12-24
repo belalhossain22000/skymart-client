@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/api/usersApi";
 import { logout } from '../../redux/slice/authSlice';
-import Cart from "../Cart/Cart";
+// import Cart from "../Cart/Cart";
 import { useState } from "react";
 import { useGetSingleCartQuery } from "../../redux/api/cartApi";
 import Spinners from "../Spinner/Spinner";
@@ -79,7 +79,7 @@ const Header = () => {
 
           </Navbar.Container>
           {/* cart */}
-          <Cart setOpen={setOpen} open={open} />
+          {/* <Cart setOpen={setOpen} open={open} /> */}
           <Button onClick={() => setOpen(!open)} size="xs" type="outlineGray" className="bg-green-500 hover:bg-green-700 text-white font-semibold">
             <span>
               <ShoppingCart className="font-bold " size={20} color="#FFFFFF" />

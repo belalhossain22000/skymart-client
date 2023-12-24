@@ -36,7 +36,7 @@ const products = [
 // eslint-disable-next-line react/prop-types
 export default function Cart({ setOpen, open }) {
   const { userInfo } = useSelector((state) => state.auth);
-  const id = userInfo?.data?._id
+  const id = userInfo?.data?._id||"1234567890ok"
   // eslint-disable-next-line no-unused-vars
   const { isLoading, data } = useGetSingleCartQuery(id)
   // const cart = data?.data?.cart
