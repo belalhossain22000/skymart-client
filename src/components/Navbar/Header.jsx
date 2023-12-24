@@ -8,14 +8,14 @@ import { logout } from '../../redux/slice/authSlice';
 import Cart from "../Cart/Cart";
 import { useState } from "react";
 import { useGetSingleCartQuery } from "../../redux/api/cartApi";
-import Spinners from "../Spinner/Spinner";
+
 
 
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const id = userInfo?.data?._id
-  const { isLoading, data } = useGetSingleCartQuery(id)
+  const {  data } = useGetSingleCartQuery(id)
   const [open, setOpen] = useState(false)
   // console.log(data)
 
@@ -33,9 +33,7 @@ const Header = () => {
       console.error(err);
     }
   };
-  if(isLoading){
-    return <Spinners/>
-  }
+  
 
   return (
 
@@ -75,7 +73,6 @@ const Header = () => {
             {
               userInfo ? <button onClick={logoutHandler} className="font-semibold text-lg"> LogOut</button> : <Link to="auth" className="font-semibold text-lg"> Sign Up</Link>
             }
-
 
           </Navbar.Container>
           {/* cart */}
