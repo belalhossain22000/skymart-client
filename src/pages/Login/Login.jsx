@@ -43,29 +43,29 @@ const Login = ({ setIsLoginFormVisible }) => {
   const notify = () => {
     toast.error('Invalid Email or Password!', {
       position: toast.POSITION.TOP_CENTER,
-      
+
     });
   };
-// submit handler
+  // submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = formData
     try {
       const res = await login(data).unwrap();
       dispatch(setCredentials({ ...res }));
-     
+
       navigate('/');
-     
+
     } catch (err) {
-     
+
       notify()
     }
   };
 
- 
+
   return (
     <div className="container mx-auto flex justify-center items-center h-screen w-full ">
-       <ToastContainer />
+      <ToastContainer />
       <div className="w-full">
         <form onSubmit={handleSubmit} className="bg-white  rounded px-8 pt-6 pb-8 mb-4">
           <div className='mb-5'>
@@ -105,7 +105,7 @@ const Login = ({ setIsLoginFormVisible }) => {
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               type="submit"
             >
-             {isLoading?"Loading...":"Login"}
+              {isLoading ? "Loading..." : "Login"}
             </button>
           </div>
         </form>

@@ -1,14 +1,28 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setCredentials } from '../../redux/slice/authSlice';
+import { useRegisterMutation } from '../../redux/api/usersApi';
 
-const Registration = ({setIsLoginFormVisible}) => {
 
-  
+const Registration = ({ setIsLoginFormVisible }) => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+  const [register, { isLoading }] = useRegisterMutation()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [navigate, userInfo]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,11 +32,17 @@ const Registration = ({setIsLoginFormVisible}) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission (You can add your logic here)
-    console.log('Form submitted:', formData);
-    // You can perform API calls or registration logic with the formData
+    try {
+      const data = formData
+      const res = await register(data).unwrap();
+      dispatch(setCredentials({ ...res }));
+
+      navigate('/');
+    } catch (error) {
+      console.log(error?.message)
+    }
   };
 
   return (
@@ -78,12 +98,12 @@ const Registration = ({setIsLoginFormVisible}) => {
               className="bg-green-500 hover:bg-green-800 text-white font-bold py-4 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               type="submit"
             >
-              Register
+              {isLoading ? "Loading..." : " Register"}
             </button>
           </div>
           <div className='flex items-center justify-center mt-5'>
 
-            <span className='text-blue-500 text-center hover:underline cursor-pointer' onClick={()=>setIsLoginFormVisible(true)}>Already have an account?</span>
+            <span className='text-blue-500 text-center hover:underline cursor-pointer' onClick={() => setIsLoginFormVisible(true)}>Already have an account?</span>
           </div>
         </form>
       </div>
