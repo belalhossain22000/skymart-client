@@ -37,10 +37,13 @@ const products = [
 export default function Cart({ setOpen, open }) {
   const { userInfo } = useSelector((state) => state.auth);
   const id = userInfo?.data?._id
+  // eslint-disable-next-line no-unused-vars
   const { isLoading, data } = useGetSingleCartQuery(id)
-  const cart = data?.data?.cart
+  // const cart = data?.data?.cart
+  const cart=[1,1,1,1]
+
+  // console.log(data?.data)
   const totalPrice=calculateTotalPrice(cart)
-  console.log(totalPrice)
 
   if (isLoading) {
     return <Spinners />
